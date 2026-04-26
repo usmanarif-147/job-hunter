@@ -38,7 +38,3 @@ perfect for learning the *concept* before we worry about *speed*.
 - Enable query logging or use Laravel Debugbar / `php artisan pail`.
 - First request: 1 SELECT in the log. Next 10 requests within 60s: 0 SELECTs.
 
-## What's next (preview, do not implement yet)
-You will quickly notice a new problem: when someone views a job and its
-`views` count goes up, `/jobs/top` still shows **stale** data for up to 60s.
-That pain is the door to Stage 2 — **cache invalidation**.
