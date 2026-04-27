@@ -20,6 +20,7 @@ class JobListingController extends Controller
     {
         $job = JobListing::findOrFail($id);
         $job->increment('views');
+        Cache::forget('jobs.top');
 
         return view('jobs.show', ['job' => $job]);
     }
