@@ -16,7 +16,7 @@
 </head>
 <body>
     <h1>Top 5 Most-Viewed Jobs</h1>
-
+    <h2> {{ gethostname() }} </h2>
     @forelse ($jobs as $job)
         <div class="job">
             <div class="job-info">
