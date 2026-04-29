@@ -7,9 +7,10 @@ services:
     user: "1000:1000"
     volumes:
       - ./job-hunter:/var/www/html
-      - ./docker/cache/app1:/var/www/html/storage/framework/cache
     depends_on:
       mysql:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     restart: unless-stopped 
 
@@ -21,9 +22,10 @@ services:
     user: "1000:1000"
     volumes:
       - ./job-hunter:/var/www/html
-      - ./docker/cache/app2:/var/www/html/storage/framework/cache
     depends_on:
       mysql:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     restart: unless-stopped 
 
@@ -38,6 +40,28 @@ services:
     depends_on:
       - app
       - app2
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_server
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s                            
+      retries: 10 
+    restart: unless-stopped
+
+  redis-commander:                        
+    image: rediscommander/redis-commander:latest
+    container_name: redis_commander                                                                                                                                                     
+    environment:                          
+      REDIS_HOSTS: local:redis:6379                                                                                                                                                     
+    ports:                                                                                                                                                                              
+      - "8081:8081"
+    depends_on:                                                                                                                                                                         
+      - redis                                           
     restart: unless-stopped
 
   mysql:

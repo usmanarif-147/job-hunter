@@ -20,7 +20,7 @@ class JobListingController extends Controller
 
         try {
             $jobs = $lock->block(5, function () {
-                return Cache::remember('jobs.top', 60, function () {
+                return Cache::remember('jobs.top', 120, function () {
                     return JobListing::orderByDesc('views')->limit(5)->get();
                 });
             });
