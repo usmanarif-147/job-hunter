@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JobListing;
 use Illuminate\Contracts\Cache\LockTimeoutException;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
 
 class JobListingController extends Controller
@@ -16,7 +17,7 @@ class JobListingController extends Controller
             return view('jobs.top', ['jobs' => $jobs]);
         }
 
-        $lock = Cache::lock('jobs.top.lock', 10);
+                    $lock = Cache::lock('jobs.top.lock', 10);
 
         try {
             $jobs = $lock->block(5, function () {
@@ -34,7 +35,14 @@ class JobListingController extends Controller
     public function show($id)
     {
         $job = JobListing::findOrFail($id);
-        $job->increment('views');
+        Redis::incr("job:views:{$id}");
+
+                        $jobs = new JobListing();
+        for($i=0; $i<10; $i++)      {
+            
+        
+        echo "its working";
+        }
 
         return view('jobs.show', ['job' => $job]);
     }

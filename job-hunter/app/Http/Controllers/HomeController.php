@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function test()
     {
-        dd('its working');
+        $count = session()->increment('refresh_count');
+        return $count;
     }
 }
