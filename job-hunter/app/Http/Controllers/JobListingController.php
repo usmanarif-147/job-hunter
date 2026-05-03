@@ -37,13 +37,6 @@ class JobListingController extends Controller
         $job = JobListing::findOrFail($id);
         Redis::incr("job:views:{$id}");
 
-                        $jobs = new JobListing();
-        for($i=0; $i<10; $i++)      {
-            
-        
-        echo "its working";
-        }
-
         return view('jobs.show', ['job' => $job]);
     }
 }
